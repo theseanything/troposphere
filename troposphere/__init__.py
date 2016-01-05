@@ -10,7 +10,7 @@ import types
 
 from . import validators
 
-__version__ = "1.3.0"
+__version__ = "1.3.4"
 
 # constants for DeletionPolicy
 Delete = 'Delete'
@@ -238,6 +238,17 @@ class Base64(AWSHelperFn):
 
     def JSONrepr(self):
         return self.data
+    
+class ImportUserData(AWSHelperFn):
+    def __init__(self, filename):
+        self.data = []
+        with open(filename, 'r') as f:
+            for line in f:
+                if line.strip():
+                    self.data.append(line)
+        
+    def JSONrepr(self):
+        return Base64(Join('', self.data))
 
 
 class FindInMap(AWSHelperFn):
